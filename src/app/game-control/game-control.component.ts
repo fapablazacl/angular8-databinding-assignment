@@ -1,5 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { GameStatus } from './game-status.model';
 
 @Component({
   selector: 'app-game-control',
@@ -9,12 +10,11 @@ import { EventEmitter } from '@angular/core';
 export class GameControlComponent implements OnInit {
 
   @Output()
-  public ticked = new EventEmitter<number>();
+  public ticked = new EventEmitter<GameStatus>();
 
-  
   public tickCount = 0;
 
-  private timeout;
+  private timeout = null;
 
   constructor() { }
 
@@ -23,13 +23,17 @@ export class GameControlComponent implements OnInit {
   public onGameStart() : void {
     this.tickCount = 0;
 
-    this.timeout = setInterval(() => {
-      console.log("Ticked " + this.tickCount++);
-      this.ticked.emit(this.tickCount++);
-    }, 1000);
+    if (this.timeout == null) {
+      this.timeout = setInterval(() => {
+        this.ticked.emit(new GameStatus(++this.tickCount));
+      }, 1000);
+    }
   }
 
   public onGameStop() : void {
-    clearInterval(this.timeout);
+    if (this.timeout != null) {
+      clearInterval(this.timeout);
+      this.timeout = null;
+    }
   }
 }

@@ -17,4 +17,11 @@
 </div>
 
 <hr>
-<app-game-control></app-game-control>
+<app-game-control (ticked) = "onGameTick($event)"></app-game-control>
+
+<div class="container">
+  <div class="row" *ngFor="let gameStatus of gameStatusCollection">
+    <app-even *ngIf="gameStatus.isEven()" [value]="gameStatus.tickCount" ></app-even>
+    <app-odd *ngIf="! gameStatus.isEven()" [value]="gameStatus.tickCount" ></app-odd>
+  </div>
+</div>

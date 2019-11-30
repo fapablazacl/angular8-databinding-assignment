@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GameStatus } from './game-control/game-status.model';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  public gameStatusCollection : GameStatus[] = [];
+
+  public onGameTick(eventData : GameStatus) : void {
+    this.gameStatusCollection.push(eventData);
+  }
 }
